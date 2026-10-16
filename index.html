@@ -1,11 +1,2615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <title>
-           QUADRO | MABANTOT
-   </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QUADRO | MABANTOT</title>
+
+<meta name="description" content="QUADRO — a place for friends, memories, and community.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+/* ========================================
+   QUADRO | MABANTOT
+   Complete single-file social group website
+======================================== */
+
+:root {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface-2: #f0f1f4;
+    --text: #18191b;
+    --muted: #777b85;
+    --border: #e5e6ea;
+    --accent: #7565f6;
+    --accent-hover: #6252e9;
+    --accent-soft: #eeebff;
+    --shadow: 0 5px 25px rgba(20, 20, 40, 0.045);
+    --radius: 18px;
+}
+
+body.dark {
+    --bg: #101115;
+    --surface: #191a20;
+    --surface-2: #24252d;
+    --text: #f2f2f5;
+    --muted: #a2a4b0;
+    --border: #30313b;
+    --accent: #a197ff;
+    --accent-hover: #b3aaff;
+    --accent-soft: #302b4e;
+    --shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "DM Sans", sans-serif;
+    transition: background .25s, color .25s;
+}
+
+button, input, textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* NAVIGATION */
+
+.topbar {
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    gap: 24px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 200px;
+}
+
+.brand-logo {
+    width: 43px;
+    height: 43px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: linear-gradient(135deg, #8170ff, #4e3dd8);
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 800;
+    font-size: 21px;
+    box-shadow: 0 5px 15px rgba(117, 101, 246, .25);
+}
+
+.brand-name {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.brand-name span {
+    color: var(--accent);
+}
+
+.brand-sub {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-top: 1px;
+}
+
+.search-box {
+    width: min(380px, 35vw);
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: var(--muted);
+}
+
+.search-box input {
+    width: 100%;
+    height: 42px;
+    padding: 0 16px 0 43px;
+    border: 1px solid transparent;
+    background: var(--surface-2);
+    border-radius: 30px;
+    color: var(--text);
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: var(--accent);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--text);
+    background: var(--surface-2);
+    transition: .2s;
+}
+
+.icon-btn:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.my-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+}
+
+/* MAIN */
+
+.container {
+    width: min(1120px, 94%);
+    margin: 28px auto 70px;
+}
+
+/* COVER */
+
+.cover {
+    height: 340px;
+    border-radius: 22px;
+    position: relative;
+    overflow: hidden;
+    background: #292633;
+    box-shadow: var(--shadow);
+}
+
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    transition: transform .7s;
+}
+
+.cover:hover .cover-image {
+    transform: scale(1.025);
+}
+
+.cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(9, 9, 15, .82),
+        rgba(9, 9, 15, .08) 75%
+    );
+    pointer-events: none;
+}
+
+.cover-content {
+    position: absolute;
+    z-index: 2;
+    bottom: 30px;
+    left: 35px;
+    right: 35px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.cover-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: .8;
+    margin-bottom: 10px;
+}
+
+.cover h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(32px, 5vw, 55px);
+    line-height: 1.05;
+    letter-spacing: -2.5px;
+}
+
+.cover p {
+    margin-top: 11px;
+    color: rgba(255, 255, 255, .83);
+    font-size: 14px;
+}
+
+.cover-edit {
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px;
+    padding: 11px 15px;
+    color: white;
+    background: rgba(20,20,30,.45);
+    backdrop-filter: blur(12px);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.cover-edit:hover {
+    background: rgba(255,255,255,.2);
+}
+
+/* GROUP INFORMATION */
+
+.group-header {
+    margin-top: 22px;
+    padding: 0 12px 23px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.group-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 0;
+}
+
+.group-avatar {
+    width: 116px;
+    height: 116px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 5px solid var(--surface);
+    outline: 3px solid var(--accent);
+    border-radius: 50%;
+    background: var(--surface-2);
+}
+
+.group-details h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 28px;
+    letter-spacing: -1px;
+}
+
+.group-details .description {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.group-meta {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.group-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.group-meta i {
+    color: var(--accent);
+}
+
+.group-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.btn {
+    border: 0;
+    border-radius: 11px;
+    padding: 12px 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    color: var(--text);
+    background: var(--surface-2);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.btn.joined {
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+/* MEMBER AVATARS */
+
+.members-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.avatar-stack {
+    display: flex;
+    align-items: center;
+    padding-left: 3px;
+}
+
+.avatar-stack img {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--surface);
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: -8px;
+}
+
+.avatar-stack img:first-child {
+    margin-left: 0;
+}
+
+.member-count {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* TABS */
+
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    margin-bottom: 24px;
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 17px 17px 14px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.tab:hover {
+    color: var(--accent);
+}
+
+.tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+/* LAYOUT */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+}
+
+.sidebar,
+.feed {
+    min-width: 0;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.card-title small {
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+/* ABOUT */
+
+.about-description {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--muted);
+}
+
+.info-list {
+    margin-top: 18px;
+    display: grid;
+    gap: 16px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.info-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.info-item small {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+/* PEOPLE */
+
+.people-list {
+    display: grid;
+    gap: 15px;
+}
+
+.person {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.person img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.person-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.person-info strong {
+    display: block;
+    font-size: 13px;
+}
+
+.person-info small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.follow-btn {
+    border: none;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 9px;
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* COMPOSER */
+
+.composer {
+    padding: 19px;
+}
+
+.composer-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.composer-avatar {
+    width: 43px;
+    height: 43px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.composer-input {
+    border: 0;
+    background: var(--surface-2);
+    border-radius: 30px;
+    padding: 14px 18px;
+    color: var(--text);
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.composer-input::placeholder {
+    color: var(--muted);
+}
+
+.composer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+    margin-top: 17px;
+    padding-top: 14px;
+}
+
+.composer-action {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.composer-action:hover {
+    background: var(--surface-2);
+}
+
+.composer-action i {
+    margin-right: 6px;
+    color: var(--accent);
+}
+
+#imageInput {
+    display: none;
+}
+
+/* POST */
+
+.post {
+    padding: 20px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.post-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-author {
+    flex: 1;
+    min-width: 0;
+}
+
+.post-author strong {
+    display: block;
+    font-size: 14px;
+}
+
+.post-author small {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.post-menu {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.post-menu:hover {
+    background: var(--surface-2);
+}
+
+.post-text {
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 17px 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: var(--surface-2);
+}
+
+.post-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.post-stats i {
+    color: var(--accent);
+    margin-right: 5px;
+}
+
+.post-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding-top: 10px;
+}
+
+.post-action {
+    padding: 11px 5px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.post-action:hover {
+    background: var(--surface-2);
+    color: var(--accent);
+}
+
+.post-action.liked {
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+/* COMMENTS */
+
+.comments {
+    margin-top: 13px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin: 13px 0;
+}
+
+.comment img {
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-bubble {
+    background: var(--surface-2);
+    padding: 10px 13px;
+    border-radius: 4px 13px 13px 13px;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.comment-bubble strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.comment-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 13px;
+}
+
+.comment-form input {
+    flex: 1;
+    min-width: 0;
+    background: var(--surface-2);
+    border: 1px solid transparent;
+    border-radius: 22px;
+    padding: 11px 15px;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.comment-form button {
+    border: none;
+    background: var(--accent);
+    color: white;
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+/* GALLERY */
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.gallery img {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+}
+
+/* EMPTY STATE */
+
+.empty-state {
+    padding: 45px 20px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.empty-state i {
+    font-size: 35px;
+    color: var(--accent);
+    margin-bottom: 14px;
+}
+
+.empty-state h3 {
+    color: var(--text);
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(5px);
+    display: none;
+    place-items: center;
+    padding: 18px;
+}
+
+.modal.open {
+    display: grid;
+}
+
+.modal-box {
+    width: min(520px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 23px;
+    box-shadow: 0 20px 70px rgba(0,0,0,.25);
+}
+
+.modal-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.modal-heading h3 {
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.close-modal {
+    border: none;
+    background: var(--surface-2);
+    color: var(--text);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+#postText {
+    width: 100%;
+    min-height: 140px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 15px;
+    background: var(--surface-2);
+    color: var(--text);
+    outline: none;
+    line-height: 1.6;
+}
+
+#preview {
+    display: none;
+    width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+    margin: 12px 0;
+    border-radius: 12px;
+    background: var(--surface-2);
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 17px;
+}
+
+.modal-footer .btn {
+    min-width: 110px;
+}
+
+.toast {
+    position: fixed;
+    z-index: 1000;
+    bottom: 25px;
+    left: 50%;
+    transform: translate(-50%, 20px);
+    opacity: 0;
+    pointer-events: none;
+    background: var(--text);
+    color: var(--surface);
+    padding: 13px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    box-shadow: var(--shadow);
+    transition: .25s;
+    max-width: 90%;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+footer {
+    text-align: center;
+    padding: 30px 15px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+    .topbar {
+        padding: 0 3%;
+        gap: 12px;
+    }
+
+    .brand {
+        min-width: auto;
+    }
+
+    .brand-sub {
+        display: none;
+    }
+
+    .search-box {
+        width: min(300px, 35vw);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .sidebar .card {
+        margin-bottom: 0;
+    }
+
+    .cover {
+        height: 300px;
+    }
+}
+
+@media (max-width: 560px) {
+    .topbar {
+        height: 62px;
+        gap: 8px;
+    }
+
+    .brand-logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        font-size: 18px;
+    }
+
+    .brand-name {
+        font-size: 15px;
+    }
+
+    .search-box {
+        flex: 1;
+        width: auto;
+    }
+
+    .search-box input {
+        height: 37px;
+        padding-left: 35px;
+        font-size: 11px;
+    }
+
+    .search-box i {
+        left: 12px;
+    }
+
+    .nav-actions {
+        gap: 5px;
+    }
+
+    .nav-actions .icon-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .nav-actions .my-avatar {
+        width: 35px;
+        height: 35px;
+    }
+
+    .container {
+        width: 94%;
+        margin-top: 14px;
+    }
+
+    .cover {
+        height: 260px;
+        border-radius: 16px;
+    }
+
+    .cover-content {
+        left: 19px;
+        right: 19px;
+        bottom: 20px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 13px;
+    }
+
+    .cover h1 {
+        font-size: 36px;
+        letter-spacing: -1.5px;
+    }
+
+    .cover p {
+        font-size: 12px;
+    }
+
+    .cover-edit {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+
+    .group-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 4px 7px 20px;
+        gap: 18px;
+    }
+
+    .group-info {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .group-avatar {
+        width: 84px;
+        height: 84px;
+        border-width: 4px;
+        outline-width: 2px;
+    }
+
+    .group-details h2 {
+        font-size: 22px;
+    }
+
+    .group-details .description {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .group-meta {
+        font-size: 10px;
+        gap: 9px;
+    }
+
+    .group-actions {
+        width: 100%;
+    }
+
+    .group-actions .btn {
+        flex: 1;
+        padding: 11px 8px;
+        font-size: 12px;
+    }
+
+    .tabs {
+        margin-bottom: 15px;
+    }
+
+    .tab {
+        padding: 14px 12px 12px;
+        font-size: 12px;
+    }
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body,
+    .post,
+    .composer {
+        padding: 16px;
+    }
+
+    .post-text {
+        font-size: 13px;
+    }
+
+    .post-action {
+        font-size: 11px;
+    }
+
+    .gallery {
+        gap: 5px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}
+</style>
 </head>
+
 <body>
-  
+
+<!-- NAVIGATION -->
+<header class="topbar">
+
+    <a href="#" class="brand" aria-label="QUADRO home">
+        <div class="brand-logo">Q</div>
+
+        <div>
+            <div class="brand-name">QUADRO<span>.</span></div>
+            <span class="brand-sub">MABANTOT COMMUNITY</span>
+        </div>
+    </a>
+
+    <label class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="searchInput" type="search"
+               placeholder="Search posts and members..."
+               aria-label="Search posts and members">
+    </label>
+
+    <div class="nav-actions">
+
+        <button class="icon-btn" id="themeToggle"
+                aria-label="Toggle appearance"
+                title="Toggle appearance">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <button class="icon-btn" id="homeBtn"
+                aria-label="Go to feed" title="Go to feed">
+            <i class="fa-solid fa-house"></i>
+        </button>
+
+        <img class="my-avatar"
+             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces"
+             alt="Your profile picture">
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- COVER PHOTO -->
+    <section class="cover">
+
+        <img
+            id="coverImage"
+            class="cover-image"
+            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1800&auto=format&fit=crop&q=85"
+            alt="Friends enjoying time together">
+
+        <div class="cover-content">
+
+            <div>
+                <div class="cover-label">
+                    <i class="fa-solid fa-sparkles"></i>
+                    &nbsp; YOUR PEOPLE, YOUR PLACE
+                </div>
+
+                <h1>Better Together.</h1>
+
+                <p>
+                    A little community. A lot of memories.
+                    Welcome to our corner of the internet.
+                </p>
+            </div>
+
+            <button class="cover-edit" id="changeCoverBtn">
+                <i class="fa-solid fa-camera"></i>
+                Change cover
+            </button>
+
+        </div>
+    </section>
+
+    <!-- GROUP PROFILE -->
+    <section class="group-header">
+
+        <div class="group-info">
+
+            <img
+                id="groupAvatar"
+                class="group-avatar"
+                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop&crop=center"
+                alt="QUADRO group profile picture">
+
+            <div class="group-details">
+
+                <h2>QUADRO | MABANTOT</h2>
+
+                <p class="description">
+                    Good people. Genuine connections. Unforgettable moments.
+                </p>
+
+                <div class="group-meta">
+
+                    <span>
+                        <i class="fa-solid fa-users"></i>
+                        <strong id="memberCount">128</strong> members
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-earth-asia"></i>
+                        Public group
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-images"></i>
+                        Community gallery
+                    </span>
+
+                </div>
+
+                <div class="members-row">
+
+                    <div class="avatar-stack" id="avatarStack">
+
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="Member">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces" alt="Member">
+                        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop&crop=faces" alt="Member">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces" alt="Member">
+                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop&crop=faces" alt="Member">
+
+                    </div>
+
+                    <span class="member-count">
+                        Friends make this place special.
+                    </span>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="group-actions">
+
+            <button class="btn btn-primary" id="joinBtn">
+                <i class="fa-solid fa-user-plus"></i>
+                Join group
+            </button>
+
+            <button class="btn btn-secondary" id="inviteBtn">
+                <i class="fa-solid fa-share-nodes"></i>
+                Share
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="tabs" aria-label="Group navigation">
+
+        <button class="tab active" data-view="feed">
+            <i class="fa-solid fa-house"></i> Discussion
+        </button>
+
+        <button class="tab" data-view="about">
+            About
+        </button>
+
+        <button class="tab" data-view="members">
+            Members
+        </button>
+
+        <button class="tab" data-view="photos">
+            Photos
+        </button>
+
+        <button class="tab" data-view="events">
+            Events
+        </button>
+
+    </nav>
+
+    <!-- CONTENT -->
+    <div class="content-grid">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+
+            <section class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        About this group
+                        <i class="fa-solid fa-circle-info"
+                           style="color:var(--accent)"></i>
+                    </h3>
+
+                    <p class="about-description">
+                        QUADRO is where our stories come together.
+                        Share your everyday moments, meet new people,
+                        celebrate achievements, and create memories
+                        with a community that feels like home.
+                    </p>
+
+                    <div class="info-list">
+
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fa-solid fa-earth-asia"></i>
+                            </div>
+
+                            <div>
+                                <strong>Public community</strong>
+                                <small>Everyone can discover this group.</small>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+
+                            <div>
+                                <strong>Created recently</strong>
+                                <small>Building something meaningful together.</small>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+
+                            <div>
+                                <strong>Good vibes only</strong>
+                                <small>Be kind. Respect everyone.</small>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURED MEMBERS -->
+            <section class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Community people
+                        <small id="peopleTotal">6 people</small>
+                    </h3>
+
+                    <div class="people-list" id="peopleList">
+
+                        <div class="person">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="Alex">
+
+                            <div class="person-info">
+                                <strong>Alex Morgan</strong>
+                                <small>Community member</small>
+                            </div>
+
+                            <button class="follow-btn">Follow</button>
+                        </div>
+
+                        <div class="person">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces" alt="Daniel">
+
+                            <div class="person-info">
+                                <strong>Daniel Cruz</strong>
+                                <small>Photo enthusiast</small>
+                            </div>
+
+                            <button class="follow-btn">Follow</button>
+                        </div>
+
+                        <div class="person">
+                            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop&crop=faces" alt="Mia">
+
+                            <div class="person-info">
+                                <strong>Mia Santos</strong>
+                                <small>Community member</small>
+                            </div>
+
+                            <button class="follow-btn">Follow</button>
+                        </div>
+
+                        <div class="person">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces" alt="Jay">
+
+                            <div class="person-info">
+                                <strong>Jay Rivera</strong>
+                                <small>Music lover</small>
+                            </div>
+
+                            <button class="follow-btn">Follow</button>
+                        </div>
+
+                        <div class="person">
+                            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop&crop=faces" alt="Sofia">
+
+                            <div class="person-info">
+                                <strong>Sofia Reyes</strong>
+                                <small>Community member</small>
+                            </div>
+
+                            <button class="follow-btn">Follow</button>
+                        </div>
+
+                        <div class="person">
+                            <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop&crop=faces" alt="Sam">
+
+                            <div class="person-info">
+                                <strong>Sam Lee</strong>
+                                <small>Creative member</small>
+                            </div>
+
+                            <button class="follow-btn">Follow</button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHOTO GALLERY -->
+            <section class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Community gallery
+                        <small>View photos</small>
+                    </h3>
+
+                    <div class="gallery" id="gallery">
+
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=350&h=350&fit=crop" alt="Friends together">
+
+                        <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=350&h=350&fit=crop" alt="Friends dining">
+
+                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=350&h=350&fit=crop" alt="Friends gathering">
+
+                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=350&h=350&fit=crop" alt="Celebration">
+
+                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=350&h=350&fit=crop" alt="Friends working">
+
+                        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=350&h=350&fit=crop" alt="Outdoor adventure">
+
+                    </div>
+                </div>
+            </section>
+
+        </aside>
+
+        <!-- MAIN FEED -->
+        <section class="feed" id="mainFeed">
+
+            <!-- POST COMPOSER -->
+            <section class="card">
+                <div class="composer">
+
+                    <div class="composer-top">
+
+                        <img
+                            class="composer-avatar"
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces"
+                            alt="Your avatar">
+
+                        <button class="composer-input" id="openComposer">
+                            Share something with the community...
+                        </button>
+
+                    </div>
+
+                    <div class="composer-actions">
+
+                        <button class="composer-action" id="photoButton">
+                            <i class="fa-regular fa-image"></i>
+                            Photo/video
+                        </button>
+
+                        <button class="composer-action" id="feelingButton">
+                            <i class="fa-regular fa-face-smile"></i>
+                            Feeling
+                        </button>
+
+                        <button class="composer-action" id="questionButton">
+                            <i class="fa-regular fa-comment-dots"></i>
+                            Discussion
+                        </button>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- POSTS ARE RENDERED HERE -->
+            <div id="postsContainer"></div>
+
+        </section>
+
+    </div>
+
+</main>
+
+<footer>
+    <p>QUADRO | MABANTOT &copy; <span id="year"></span></p>
+    <p style="margin-top:7px">
+        Made for friends, memories, and community.
+    </p>
+</footer>
+
+<!-- CREATE POST MODAL -->
+<div class="modal" id="postModal" role="dialog"
+     aria-modal="true" aria-labelledby="modalTitle">
+
+    <div class="modal-box">
+
+        <div class="modal-heading">
+            <h3 id="modalTitle">Create a post</h3>
+
+            <button class="close-modal" id="closeModal"
+                    aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <textarea
+            id="postText"
+            maxlength="3000"
+            placeholder="What's happening in your world?"
+            aria-label="Post content"></textarea>
+
+        <img id="preview" alt="Selected image preview">
+
+        <input type="file" id="imageInput"
+               accept="image/*">
+
+        <div class="modal-footer">
+
+            <button class="btn btn-secondary" id="modalPhotoBtn">
+                <i class="fa-regular fa-image"></i>
+                Add photo
+            </button>
+
+            <button class="btn btn-primary" id="publishBtn">
+                Publish <i class="fa-solid fa-paper-plane"></i>
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ========================================
+   QUADRO | MABANTOT
+   Frontend interactions
+======================================== */
+
+(() => {
+    "use strict";
+
+    const $ = (selector, root = document) =>
+        root.querySelector(selector);
+
+    const $$ = (selector, root = document) =>
+        [...root.querySelectorAll(selector)];
+
+    const STORAGE_KEY = "quadro-community-posts-v1";
+    const THEME_KEY = "quadro-theme-v1";
+    const JOIN_KEY = "quadro-joined-v1";
+
+    const myName = "You";
+
+    const myAvatar =
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces";
+
+    const samplePeople = [
+        {
+            name: "Alex Morgan",
+            avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces"
+        },
+        {
+            name: "Daniel Cruz",
+            avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=faces"
+        },
+        {
+            name: "Mia Santos",
+            avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=faces"
+        },
+        {
+            name: "Jay Rivera",
+            avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop&crop=faces"
+        },
+        {
+            name: "Sofia Reyes",
+            avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=120&h=120&fit=crop&crop=faces"
+        },
+        {
+            name: "Sam Lee",
+            avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=120&h=120&fit=crop&crop=faces"
+        }
+    ];
+
+    let posts = [];
+    let selectedImage = "";
+    let activeView = "feed";
+    let toastTimer;
+
+    const postsContainer = $("#postsContainer");
+    const modal = $("#postModal");
+    const postText = $("#postText");
+    const imageInput = $("#imageInput");
+    const preview = $("#preview");
+    const publishBtn = $("#publishBtn");
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    function toast(message) {
+        const element = $("#toast");
+
+        element.textContent = message;
+        element.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer = setTimeout(() => {
+            element.classList.remove("show");
+        }, 2600);
+    }
+
+    function formatTime(timestamp) {
+        const seconds = Math.max(
+            0,
+            Math.floor((Date.now() - timestamp) / 1000)
+        );
+
+        if (seconds < 60) return "Just now";
+
+        const minutes = Math.floor(seconds / 60);
+
+        if (minutes < 60) {
+            return minutes + "m ago";
+        }
+
+        const hours = Math.floor(minutes / 60);
+
+        if (hours < 24) {
+            return hours + "h ago";
+        }
+
+        const days = Math.floor(hours / 24);
+
+        if (days < 7) {
+            return days + "d ago";
+        }
+
+        return new Date(timestamp).toLocaleDateString();
+    }
+
+    function savePosts() {
+        try {
+            /*
+             * Store only text posts and small image data.
+             * Large image uploads may exceed localStorage limits.
+             */
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(posts)
+            );
+        } catch (error) {
+            console.error("Could not save posts:", error);
+
+            toast(
+                "Storage is full. Try a smaller image or remove old posts."
+            );
+        }
+    }
+
+    function loadPosts() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+
+            if (stored) {
+                const parsed = JSON.parse(stored);
+
+                if (Array.isArray(parsed)) {
+                    posts = parsed;
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error("Could not load posts:", error);
+        }
+
+        posts = [
+            {
+                id: "welcome-post",
+                author: "QUADRO Community",
+                avatar: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=120&h=120&fit=crop",
+                text: "Welcome to QUADRO | MABANTOT! ✨\n\nThis is our little corner to share memories, meet people, and celebrate the good things in life.\n\nIntroduce yourself in the comments. We'd love to meet you!",
+                image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&auto=format&fit=crop&q=85",
+                time: Date.now() - 1000 * 60 * 18,
+                likes: 24,
+                liked: false,
+                comments: [
+                    {
+                        name: "Mia Santos",
+                        avatar: samplePeople[2].avatar,
+                        text: "Love the vibe here! 💜"
+                    },
+                    {
+                        name: "Daniel Cruz",
+                        avatar: samplePeople[1].avatar,
+                        text: "Happy to be part of this community."
+                    }
+                ]
+            },
+            {
+                id: "memory-post",
+                author: "Mia Santos",
+                avatar: samplePeople[2].avatar,
+                text: "The best memories are made when we're simply enjoying the moment with good people. Here's to more little adventures together. 🤍",
+                image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=1200&auto=format&fit=crop&q=85",
+                time: Date.now() - 1000 * 60 * 60 * 3,
+                likes: 16,
+                liked: false,
+                comments: [
+                    {
+                        name: "Alex Morgan",
+                        avatar: samplePeople[0].avatar,
+                        text: "We should do this again!"
+                    }
+                ]
+            },
+            {
+                id: "community-post",
+                author: "Daniel Cruz",
+                avatar: samplePeople[1].avatar,
+                text: "Question of the day: if we could plan one community hangout this weekend, where would you want to go? Drop your ideas below!",
+                image: "",
+                time: Date.now() - 1000 * 60 * 60 * 8,
+                likes: 9,
+                liked: false,
+                comments: []
+            }
+        ];
+
+        savePosts();
+    }
+
+    function renderPosts() {
+        const query = ($("#searchInput").value || "")
+            .trim()
+            .toLowerCase();
+
+        let visiblePosts = posts.filter(post => {
+            return (
+                post.author.toLowerCase().includes(query) ||
+                post.text.toLowerCase().includes(query) ||
+                post.comments.some(comment =>
+                    comment.text.toLowerCase().includes(query)
+                )
+            );
+        });
+
+        if (activeView === "photos") {
+            visiblePosts = visiblePosts.filter(post => post.image);
+        }
+
+        if (activeView === "members") {
+            postsContainer.innerHTML = renderMemberDirectory();
+            return;
+        }
+
+        if (activeView === "about") {
+            postsContainer.innerHTML = `
+                <section class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">About QUADRO</h3>
+                        <p class="about-description">
+                            QUADRO | MABANTOT is a community concept
+                            designed for sharing experiences, photos,
+                            discussions, and everyday memories.
+                        </p>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+                                <div>
+                                    <strong>Community first</strong>
+                                    <small>Meet new people and reconnect with friends.</small>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-camera"></i>
+                                </div>
+                                <div>
+                                    <strong>Share your memories</strong>
+                                    <small>Post photos, stories, and moments.</small>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-shield-heart"></i>
+                                </div>
+                                <div>
+                                    <strong>Respect everyone</strong>
+                                    <small>Keep the community welcoming.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+            return;
+        }
+
+        if (activeView === "events") {
+            postsContainer.innerHTML = `
+                <section class="card">
+                    <div class="empty-state">
+                        <i class="fa-regular fa-calendar"></i>
+                        <h3>No upcoming events yet</h3>
+                        <p>
+                            Community events will appear here.
+                            Start a discussion to suggest the first meetup!
+                        </p>
+                        <button class="btn btn-primary"
+                                id="suggestEventBtn"
+                                style="margin-top:18px">
+                            Suggest an event
+                        </button>
+                    </div>
+                </section>
+            `;
+
+            $("#suggestEventBtn").addEventListener("click", () => {
+                openModal("Let's plan a community event!");
+            });
+
+            return;
+        }
+
+        if (!visiblePosts.length) {
+            postsContainer.innerHTML = `
+                <section class="card">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <h3>No posts found</h3>
+                        <p>Try a different search or create a new post.</p>
+                    </div>
+                </section>
+            `;
+            return;
+        }
+
+        postsContainer.innerHTML = visiblePosts.map(post => `
+            <article class="card post" data-post-id="${escapeHTML(post.id)}">
+
+                <div class="post-header">
+
+                    <img class="post-avatar"
+                         src="${escapeHTML(post.avatar)}"
+                         alt="${escapeHTML(post.author)}">
+
+                    <div class="post-author">
+                        <strong>${escapeHTML(post.author)}</strong>
+                        <small>
+                            ${formatTime(post.time)}
+                            &nbsp;·&nbsp;
+                            <i class="fa-solid fa-earth-asia"></i>
+                        </small>
+                    </div>
+
+                    <button class="post-menu"
+                            data-action="menu"
+                            aria-label="Post options">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+
+                </div>
+
+                <p class="post-text">${escapeHTML(post.text)}</p>
+
+                ${post.image ? `
+                    <img class="post-image"
+                         src="${escapeHTML(post.image)}"
+                         alt="Community post photo"
+                         loading="lazy">
+                ` : ""}
+
+                <div class="post-stats">
+                    <span>
+                        <i class="fa-solid fa-heart"></i>
+                        <span data-role="likes">${post.likes}</span>
+                        likes
+                    </span>
+
+                    <span>
+                        ${post.comments.length} comments
+                    </span>
+                </div>
+
+                <div class="post-actions">
+
+                    <button class="post-action ${post.liked ? "liked" : ""}"
+                            data-action="like">
+                        <i class="${post.liked ? "fa-solid" : "fa-regular"} fa-heart"></i>
+                        ${post.liked ? "Liked" : "Like"}
+                    </button>
+
+                    <button class="post-action" data-action="comment">
+                        <i class="fa-regular fa-comment"></i>
+                        Comment
+                    </button>
+
+                    <button class="post-action" data-action="share">
+                        <i class="fa-solid fa-share"></i>
+                        Share
+                    </button>
+
+                </div>
+
+                <div class="comments">
+
+                    ${post.comments.map(comment => `
+                        <div class="comment">
+                            <img src="${escapeHTML(comment.avatar)}"
+                                 alt="${escapeHTML(comment.name)}">
+
+                            <div class="comment-bubble">
+                                <strong>${escapeHTML(comment.name)}</strong>
+                                ${escapeHTML(comment.text)}
+                            </div>
+                        </div>
+                    `).join("")}
+
+                    <form class="comment-form">
+
+                        <input name="comment"
+                               maxlength="500"
+                               placeholder="Write a comment..."
+                               aria-label="Write a comment"
+                               required>
+
+                        <button type="submit" aria-label="Send comment">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+
+                    </form>
+
+                </div>
+            </article>
+        `).join("");
+    }
+
+    function renderMemberDirectory() {
+        return `
+            <section class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Community members</h3>
+
+                    <div class="people-list">
+                        ${samplePeople.map(person => `
+                            <div class="person">
+                                <img src="${escapeHTML(person.avatar)}"
+                                     alt="${escapeHTML(person.name)}">
+
+                                <div class="person-info">
+                                    <strong>${escapeHTML(person.name)}</strong>
+                                    <small>Community member</small>
+                                </div>
+
+                                <button class="follow-btn">Follow</button>
+                            </div>
+                        `).join("")}
+                    </div>
+
+                    <p class="about-description" style="margin-top:18px">
+                        These are sample profiles. A real member directory
+                        requires user accounts and a connected database.
+                    </p>
+                </div>
+            </section>
+        `;
+    }
+
+    function openModal(initialText = "") {
+        modal.classList.add("open");
+        postText.value = initialText;
+        postText.focus();
+    }
+
+    function closeModal() {
+        modal.classList.remove("open");
+    }
+
+    function clearImageSelection() {
+        selectedImage = "";
+        preview.src = "";
+        preview.style.display = "none";
+        imageInput.value = "";
+    }
+
+    function readSelectedImage(file) {
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            toast("Please select an image file.");
+            imageInput.value = "";
+            return;
+        }
+
+        if (file.size > 3 * 1024 * 1024) {
+            toast("Please choose an image smaller than 3 MB.");
+            imageInput.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = event => {
+            selectedImage = event.target.result;
+            preview.src = selectedImage;
+            preview.style.display = "block";
+        };
+
+        reader.onerror = () => {
+            toast("Could not read this image.");
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    function publishPost() {
+        const text = postText.value.trim();
+
+        if (!text && !selectedImage) {
+            toast("Write something or add a photo first.");
+            return;
+        }
+
+        const newPost = {
+            id: "post-" + Date.now() + "-" +
+                Math.random().toString(36).slice(2, 8),
+            author: myName,
+            avatar: myAvatar,
+            text,
+            image: selectedImage,
+            time: Date.now(),
+            likes: 0,
+            liked: false,
+            comments: []
+        };
+
+        posts.unshift(newPost);
+        savePosts();
+
+        activeView = "feed";
+
+        $$(".tab").forEach(tab => {
+            tab.classList.toggle(
+                "active",
+                tab.dataset.view === "feed"
+            );
+        });
+
+        closeModal();
+        clearImageSelection();
+        postText.value = "";
+
+        renderPosts();
+
+        toast("Your post has been published on this device.");
+
+        $("#mainFeed").scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+    /* THEME SWITCH */
+
+    function applyTheme(theme) {
+        document.body.classList.toggle("dark", theme === "dark");
+
+        const icon = $("#themeToggle i");
+
+        icon.className = theme === "dark"
+            ? "fa-solid fa-sun"
+            : "fa-solid fa-moon";
+    }
+
+    let currentTheme = "light";
+
+    try {
+        currentTheme = localStorage.getItem(THEME_KEY) || "light";
+    } catch (_) {}
+
+    applyTheme(currentTheme);
+
+    $("#themeToggle").addEventListener("click", () => {
+        currentTheme = document.body.classList.contains("dark")
+            ? "light"
+            : "dark";
+
+        applyTheme(currentTheme);
+
+        try {
+            localStorage.setItem(THEME_KEY, currentTheme);
+        } catch (_) {}
+
+        toast(
+            currentTheme === "dark"
+                ? "Dark appearance enabled."
+                : "Light appearance enabled."
+        );
+    });
+
+    /* GROUP JOIN */
+
+    let joined = false;
+
+    try {
+        joined = localStorage.getItem(JOIN_KEY) === "true";
+    } catch (_) {}
+
+    function updateJoinButton() {
+        const button = $("#joinBtn");
+
+        button.classList.toggle("joined", joined);
+
+        button.innerHTML = joined
+            ? '<i class="fa-solid fa-check"></i> Joined'
+            : '<i class="fa-solid fa-user-plus"></i> Join group';
+    }
+
+    updateJoinButton();
+
+    $("#joinBtn").addEventListener("click", () => {
+        joined = !joined;
+
+        try {
+            localStorage.setItem(JOIN_KEY, String(joined));
+        } catch (_) {}
+
+        updateJoinButton();
+
+        toast(
+            joined
+                ? "You joined this demo community!"
+                : "You left this demo community."
+        );
+    });
+
+    /* SHARE */
+
+    $("#inviteBtn").addEventListener("click", async () => {
+        const shareData = {
+            title: "QUADRO | MABANTOT",
+            text: "Check out QUADRO — our community for friends and memories.",
+            url: location.href
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(location.href);
+                toast("Page link copied!");
+            } else {
+                window.prompt("Copy this page link:", location.href);
+            }
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                toast("Unable to share right now.");
+            }
+        }
+    });
+
+    /* COVER IMAGE UPLOAD */
+
+    $("#changeCoverBtn").addEventListener("click", () => {
+        const picker = document.createElement("input");
+
+        picker.type = "file";
+        picker.accept = "image/*";
+
+        picker.addEventListener("change", () => {
+            const file = picker.files[0];
+
+            if (!file) return;
+
+            if (!file.type.startsWith("image/")) {
+                toast("Please select an image.");
+                return;
+            }
+
+            if (file.size > 3 * 1024 * 1024) {
+                toast("Choose a cover image under 3 MB.");
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = event => {
+                $("#coverImage").src = event.target.result;
+
+                try {
+                    localStorage.setItem(
+                        "quadro-cover-v1",
+                        event.target.result
+                    );
+                } catch (_) {
+                    toast("Cover changed, but could not be saved permanently.");
+                }
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        picker.click();
+    });
+
+    try {
+        const savedCover = localStorage.getItem("quadro-cover-v1");
+
+        if (savedCover) {
+            $("#coverImage").src = savedCover;
+        }
+    } catch (_) {}
+
+    /* COMPOSER */
+
+    $("#openComposer").addEventListener("click", () => {
+        openModal();
+    });
+
+    $("#photoButton").addEventListener("click", () => {
+        openModal();
+        imageInput.click();
+    });
+
+    $("#modalPhotoBtn").addEventListener("click", () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener("change", () => {
+        readSelectedImage(imageInput.files[0]);
+    });
+
+    $("#feelingButton").addEventListener("click", () => {
+        openModal("Feeling good today! ");
+    });
+
+    $("#questionButton").addEventListener("click", () => {
+        openModal("Community discussion: ");
+    });
+
+    $("#closeModal").addEventListener("click", closeModal);
+
+    modal.addEventListener("click", event => {
+        if (event.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeModal();
+    });
+
+    publishBtn.addEventListener("click", publishPost);
+
+    /* POST INTERACTIONS */
+
+    postsContainer.addEventListener("click", async event => {
+        const actionButton = event.target.closest("[data-action]");
+
+        if (actionButton) {
+            const postElement = actionButton.closest("[data-post-id]");
+
+            if (!postElement) return;
+
+            const post = posts.find(item =>
+                item.id === postElement.dataset.postId
+            );
+
+            if (!post) return;
+
+            const action = actionButton.dataset.action;
+
+            if (action === "like") {
+                post.liked = !post.liked;
+                post.likes = Math.max(
+                    0,
+                    post.likes + (post.liked ? 1 : -1)
+                );
+
+                savePosts();
+                renderPosts();
+            }
+
+            if (action === "comment") {
+                const input = $(".comment-form input", postElement);
+
+                if (input) input.focus();
+            }
+
+            if (action === "share") {
+                const shareText = post.text || "Check out this post!";
+
+                try {
+                    if (navigator.share) {
+                        await navigator.share({
+                            title: "QUADRO community post",
+                            text: shareText,
+                            url: location.href
+                        });
+                    } else if (
+                        navigator.clipboard &&
+                        window.isSecureContext
+                    ) {
+                        await navigator.clipboard.writeText(
+                            shareText + "\n" + location.href
+                        );
+
+                        toast("Post text and link copied!");
+                    } else {
+                        window.prompt(
+                            "Copy this post:",
+                            shareText + "\n" + location.href
+                        );
+                    }
+                } catch (error) {
+                    if (error.name !== "AbortError") {
+                        toast("Unable to share this post.");
+                    }
+                }
+            }
+
+            if (action === "menu") {
+                if (post.author === myName) {
+                    if (confirm("Delete your post?")) {
+                        posts = posts.filter(item =>
+                            item.id !== post.id
+                        );
+
+                        savePosts();
+                        renderPosts();
+                        toast("Post deleted.");
+                    }
+                } else {
+                    toast("Post options are available for your own posts.");
+                }
+            }
+
+            return;
+        }
+
+        const followButton = event.target.closest(".follow-btn");
+
+        if (followButton) {
+            const isFollowing =
+                followButton.dataset.following === "true";
+
+            followButton.dataset.following = String(!isFollowing);
+
+            followButton.textContent = isFollowing
+                ? "Follow"
+                : "Following";
+
+            toast(
+                isFollowing
+                    ? "You unfollowed this demo profile."
+                    : "You're following this demo profile."
+            );
+        }
+    });
+
+    /* COMMENT SUBMISSION */
+
+    postsContainer.addEventListener("submit", event => {
+        if (!event.target.matches(".comment-form")) return;
+
+        event.preventDefault();
+
+        const form = event.target;
+        const input = $('input[name="comment"]', form);
+        const text = input.value.trim();
+
+        if (!text) return;
+
+        const postElement = form.closest("[data-post-id]");
+
+        if (!postElement) return;
+
+        const post = posts.find(item =>
+            item.id === postElement.dataset.postId
+        );
+
+        if (!post) return;
+
+        post.comments.push({
+            name: myName,
+            avatar: myAvatar,
+            text
+        });
+
+        savePosts();
+        renderPosts();
+
+        toast("Comment added on this device.");
+    });
+
+    /* SEARCH */
+
+    $("#searchInput").addEventListener("input", renderPosts);
+
+    /* NAVIGATION TABS */
+
+    $$(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            activeView = tab.dataset.view;
+
+            $$(".tab").forEach(item => {
+                item.classList.toggle("active", item === tab);
+            });
+
+            renderPosts();
+        });
+    });
+
+    $("#homeBtn").addEventListener("click", () => {
+        activeView = "feed";
+
+        $$(".tab").forEach(tab => {
+            tab.classList.toggle(
+                "active",
+                tab.dataset.view === "feed"
+            );
+        });
+
+        renderPosts();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+    /* GALLERY */
+
+    $("#gallery").addEventListener("click", event => {
+        const image = event.target.closest("img");
+
+        if (!image) return;
+
+        const viewer = window.open("", "_blank");
+
+        if (!viewer) {
+            toast("Allow pop-ups to open the photo.");
+            return;
+        }
+
+        const safeSource = image.src.replace(/&/g, "&amp;")
+                                    .replace(/"/g, "&quot;");
+
+        viewer.document.write(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>QUADRO Gallery</title>
+                <style>
+                    * { box-sizing: border-box; }
+                    body {
+                        margin: 0;
+                        min-height: 100vh;
+                        display: grid;
+                        place-items: center;
+                        background: #111;
+                    }
+                    img {
+                        max-width: 96vw;
+                        max-height: 96vh;
+                        object-fit: contain;
+                        border-radius: 12px;
+                    }
+                </style>
+            </head>
+            <body>
+                <img src="${safeSource}" alt="Community gallery photo">
+            </body>
+            </html>
+        `);
+    });
+
+    /* INITIALIZE */
+
+    $("#year").textContent = new Date().getFullYear();
+
+    loadPosts();
+    renderPosts();
+
+})();
+</script>
+
 </body>
 </html>
